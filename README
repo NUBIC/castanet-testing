@@ -1,0 +1,35 @@
+1. castanet-testing
+
+Castanet[1] contains Rake tasks to start the Jasig CAS Server[2] and a CAS
+proxy callback in a test environment.
+
+This gem contains an adaptation of those tasks for use in other projects.
+
+2. Usage
+
+In a Rakefile:
+
+    require 'castanet/testing'
+
+    Castanet::Testing::JasigServerTasks.new
+    Castanet::Testing::CallbackServerTasks.new
+
+This will install the following tasks:
+
+    castanet:testing:jasig:download
+    castanet:testing:jasig:prep  (=> download)
+    castanet:testing:jasig:start (=> prep)
+    castanet:testing:jasig:waitall
+    castanet:testing:jasig:stopall
+
+Of course, you may only install one of these tasks.
+
+The start tasks can be used on their own or as part of a Procfile.  If used in
+a Procfile, you may freely vary concurrency levels.  (Often, however, you'll
+want just one server instance.)
+
+3. License and authorship
+
+Copyright (c) 2013 David Yip.  Made available under the MIT license.
+
+# vim:ts=2:sw=2:et:tw=78
