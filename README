@@ -5,7 +5,17 @@ proxy callback in a test environment.
 
 This gem contains an adaptation of those tasks for use in other projects.
 
-2. Usage
+2. Requirements
+
+* A Ruby environment: Ruby 1.9.3, JRuby 1.7.0, and Rubinius 2.0.0 are
+  regularly tested
+* curl(1)
+* openssl(1)
+* patch(1)
+* test(1)
+* GNU tar
+
+3. Usage
 
 In a Rakefile:
 
@@ -16,19 +26,21 @@ In a Rakefile:
 
 This will install the following tasks:
 
-    castanet:testing:jasig:download
-    castanet:testing:jasig:prep  (=> download)
-    castanet:testing:jasig:start (=> prep)
+    castanet:testing:jasig:start
     castanet:testing:jasig:waitall
-    castanet:testing:jasig:stopall
-
-Of course, you may only install one of these tasks.
+    castanet:testing:jasig:cleanall
+    castanet:testing:callback:start
+    castanet:testing:callback:waitall
+    castanet:testing:callback:cleanall
 
 The start tasks can be used on their own or as part of a Procfile.  If used in
 a Procfile, you may freely vary concurrency levels.  (Often, however, you'll
 want just one server instance.)
 
-3. License and authorship
+All *Tasks classes have optional parameters.  See the class docs for more
+information.
+
+4. License and authorship
 
 Copyright (c) 2013 David Yip.  Made available under the MIT license.
 
