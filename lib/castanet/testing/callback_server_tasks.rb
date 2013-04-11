@@ -20,8 +20,8 @@ module Castanet::Testing
     CALLBACK_PATH = asset_path('callback/callback.rb')
     RUNNER = asset_path('run.rb')
 
-    # @param root [String] namespaces for this task; an empty string means
-    #   toplevel namespace
+    # @option opts [String] :root ('castanet:testing:callback') namespaces for
+    #   this task; an empty string means toplevel namespace
     # @option opts [String] :scratch_dir ('/tmp/castanet-testing/callback')
     #   sets a path for downloads, server scratch space, etc.
     # @option opts [String] :host ('localhost') hostname to bind
@@ -29,7 +29,8 @@ module Castanet::Testing
     #   file to use
     # @option opts [String] :ssl_key (DEFAULT_SSL_KEY) the SSL key file to use
     # @option opts [String] :timeout (DEFAULT_TIMEOUT) timeout for waitall
-    def initialize(root = "castanet:testing:callback", options = {})
+    def initialize(options = {})
+      root = options[:root] || 'castanet:testing:callback'
       scratch_dir = options[:scratch_dir] || DEFAULT_SCRATCH_DIR
       host = options[:host] || DEFAULT_HOST
       ssl_cert = options[:ssl_cert] || DEFAULT_SSL_CERT

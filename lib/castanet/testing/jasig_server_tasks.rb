@@ -34,8 +34,8 @@ module Castanet::Testing
     ##
     # This is a ridiculous amount of setup for a CAS server.
     #
-    # @param root [String] namespaces for this task; an empty string means
-    #   toplevel namespace
+    # @option opts [String] :root ('castanet:testing:jasig') namespaces for
+    #   this task; an empty string means toplevel namespace
     # @option opts [String] :scratch_dir ('/tmp/castanet-testing/jasig') sets
     #   a path for downloads, server scratch space, etc.
     # @option opts [String] :jasig_url (DEFAULT_JASIG_URL) the Jasig CAS Server
@@ -53,7 +53,8 @@ module Castanet::Testing
     #   file to use
     # @option opts [String] :ssl_key (DEFAULT_SSL_KEY) the SSL key file to use
     # @option opts [String] :timeout (DEFAULT_TIMEOUT) timeout for waitall
-    def initialize(root = "castanet:testing:jasig", options = {})
+    def initialize(options = {})
+      root = options[:root] || 'castanet:testing:jasig'
       scratch_dir = options[:scratch_dir] || DEFAULT_SCRATCH_DIR
       jasig_url = options[:jasig_url] || DEFAULT_JASIG_URL
       jasig_checksum = options[:jasig_checksum] || DEFAULT_JASIG_CHECKSUM
