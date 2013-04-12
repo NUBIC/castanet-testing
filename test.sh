@@ -10,7 +10,8 @@ if [ -z $CALLBACK_PORT ]; then
 	exit 1
 fi
 
-bundle exec rake castanet:testing:jasig:cleanall castanet:testing:callback:cleanall
+bundle exec rake castanet:testing:jasig:delete_scratch_dir castanet:testing:callback:delete_scratch_dir
+bundle exec rake castanet:testing:jasig:download
 
 PORT=$JASIG_PORT bundle exec rake castanet:testing:jasig:start &
 JASIG_PID=$!
