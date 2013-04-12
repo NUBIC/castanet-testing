@@ -29,7 +29,7 @@ module Castanet::Testing
 
     JETTY_SSL_CONFIG_TEMPLATE = asset_path('jasig/jetty.xml.erb')
     JETTY_CONFIG_PATCHFILE = asset_path('jasig/jetty.xml.patch')
-    RUNNER = asset_path('jasig/run.rb')
+    RUNNER = asset_path('jasig/run.sh')
 
     ##
     # This is a ridiculous amount of setup for a CAS server.
