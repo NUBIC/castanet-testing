@@ -119,7 +119,7 @@ module Castanet::Testing
         end
 
         desc 'Download the CAS server'
-        task :download => [jasig_package_dest, jasig_extract_dest, jetty_package_dest, instance_dir]
+        task :download => [jasig_package_dest, jasig_extract_dest, jetty_package_dest]
 
         task :write_url => instance_dir do
           cd instance_dir do
