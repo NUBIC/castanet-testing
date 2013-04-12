@@ -186,8 +186,15 @@ module Castanet::Testing
     alias_method :e, :shellescape
 
     def verify_checksum(fn, expected)
-      actual = OpenSSL::Digest::SHA256.new(File.read(fn)).to_s
+      sha = OpenSSL::Digest::SHA256.new
 
+      File.open(fn, 'r') do |f|
+        until f.eof?
+          sha << f.read(65536)
+        end
+      end
+
+      actual = sha.to_s
       raise "checksum mismatch: #{actual} != #{expected}" if actual != expected
     end
   end
