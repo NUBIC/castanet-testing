@@ -28,6 +28,4 @@ kill -TERM $JASIG_PID && wait $JASIG_PID
 kill -TERM $CALLBACK_PID && wait $CALLBACK_PID
 
 # ...and make sure we've cleaned up.
-! ps waxu | grep java | grep -v grep
-! ps waxu | grep ruby | grep -v grep
 ! find /tmp/castanet-testing | egrep 'jasig\.|callback\.'
