@@ -6,6 +6,7 @@ require 'erb'
 require 'json'
 require 'rake'
 require 'shellwords'
+require 'openssl'
 require 'uri'
 
 module Castanet::Testing
@@ -93,15 +94,14 @@ module Castanet::Testing
       namespaces(root.split(':')) do
         file jasig_package_dest do
           mkdir_p scratch_dir
-
           sh "curl -s #{e(jasig_url)} > #{jasig_package_dest}"
-          sh %Q{test "`cat #{jasig_package_dest} | openssl dgst -sha256`" = '#{jasig_checksum}'}
+          verify_checksum(jasig_package_dest, jasig_checksum)
         end
 
         file jetty_package_dest do
           mkdir_p scratch_dir
           sh "curl -s #{shellescape(jetty_url)} > #{jetty_package_dest}"
-          sh %Q{test "`cat #{jetty_package_dest} | openssl dgst -sha256`" = '#{jetty_checksum}'}
+          verify_checksum(jetty_package_dest, jetty_checksum)
         end
 
         file jasig_extract_dest do
@@ -184,5 +184,11 @@ module Castanet::Testing
     private
 
     alias_method :e, :shellescape
+
+    def verify_checksum(fn, expected)
+      actual = OpenSSL::Digest::SHA256.new(File.read(fn)).to_s
+
+      raise "checksum mismatch: #{actual} != #{expected}" if actual != expected
+    end
   end
 end
