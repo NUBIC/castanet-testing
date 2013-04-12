@@ -118,6 +118,7 @@ module Castanet::Testing
           raise "PORT is not set" unless port
         end
 
+        desc 'Download the CAS server'
         task :download => [jasig_package_dest, jasig_extract_dest, jetty_package_dest, instance_dir]
 
         task :write_url => instance_dir do
