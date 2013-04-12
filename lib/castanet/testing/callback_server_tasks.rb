@@ -70,14 +70,14 @@ module Castanet::Testing
           ENV['SSL_CERT_PATH'] = ssl_cert
           ENV['SSL_KEY_PATH'] = ssl_key
 
-          handler = lambda do |sig|
+          handler = lambda do |*|
             rm_rf(instance_dir, :verbose => true)
             exit! 0
           end
 
           trap('TERM', &handler)
-          trap('QUIT', &handler)
           trap('INT', &handler)
+          trap('QUIT', &handler) unless RUBY_PLATFORM =~ /java/
 
           load CALLBACK_PATH
         end
