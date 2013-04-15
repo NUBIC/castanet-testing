@@ -94,24 +94,24 @@ module Castanet::Testing
       namespaces(root.split(':')) do
         file jasig_package_dest do
           mkdir_p scratch_dir
-          sh "curl -s #{e(jasig_url)} > #{jasig_package_dest}"
+          sh "curl -s #{e jasig_url} > #{e jasig_package_dest}"
           verify_checksum(jasig_package_dest, jasig_checksum)
         end
 
         file jetty_package_dest do
           mkdir_p scratch_dir
-          sh "curl -s #{shellescape(jetty_url)} > #{jetty_package_dest}"
+          sh "curl -s #{e jetty_url} > #{e jetty_package_dest}"
           verify_checksum(jetty_package_dest, jetty_checksum)
         end
 
         file jasig_extract_dest do
           mkdir_p jasig_extract_dest
-          sh "tar xf #{jasig_package_dest} -C #{jasig_extract_dest} --strip-components 1"
+          sh "tar xf #{e jasig_package_dest} -C #{e jasig_extract_dest} --strip-components 1"
         end
 
         file instance_dir do
           mkdir_p instance_dir
-          sh "tar xf #{jetty_package_dest} -C #{instance_dir} --strip-components 1"
+          sh "tar xf #{e jetty_package_dest} -C #{e instance_dir} --strip-components 1"
         end
 
         task :ensure_port do
@@ -159,13 +159,13 @@ module Castanet::Testing
           patchfile = File.expand_path('../jetty.xml.patch', __FILE__)
 
           cd "#{instance_dir}/etc" do
-            sh "patch -p1 < #{JETTY_CONFIG_PATCHFILE}"
+            sh "patch -p1 < #{e JETTY_CONFIG_PATCHFILE}"
           end
         end
 
         desc 'Start a Jasig CAS Server instance (requires PORT to be set)'
         task :start => :prep do
-          exec "#{RUNNER} #{instance_dir}"
+          exec "#{RUNNER} #{e instance_dir}"
         end
 
         desc "Wait for all Jasig CAS Server instances in #{scratch_dir} to become ready"
