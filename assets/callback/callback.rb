@@ -177,6 +177,9 @@ end
 
 # ---------------------------------------------------------------------------- 
 
+trap('INT') { exit! }
+trap('TERM') { exit! }
+
 # Start it up.
 Rack::Handler::WEBrick.run(RackProxyCallback.application, {
   :BindAddress => ENV['HOST'],

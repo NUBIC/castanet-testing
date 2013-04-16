@@ -25,5 +25,4 @@ sleep 10
 bundle exec rake castanet:testing:jasig:waitall castanet:testing:callback:waitall
 
 # Shut things down.
-kill -TERM $JASIG_PID && wait $JASIG_PID
-kill -TERM $CALLBACK_PID && wait $CALLBACK_PID
+kill -TERM $JASIG_PID $CALLBACK_PID && wait $JASIG_PID $CALLBACK_PID
