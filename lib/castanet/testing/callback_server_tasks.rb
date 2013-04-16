@@ -49,20 +49,7 @@ module Castanet::Testing
           raise "PORT is not set" unless port
         end
 
-        task :write_url => instance_dir do
-          cd instance_dir do
-            server_url = "https://#{host}:#{port}"
-            data = {
-              status: "#{server_url}/",
-              retrieval: "#{server_url}/retrieve_pgt",
-              callback: "#{server_url}/receive_pgt"
-            }
-
-            File.open('.urls', 'w') { |f| f.write(data.to_json) }
-          end
-        end
-
-        task :prep => [:ensure_port, :write_url]
+        task :prep => [:ensure_port, instance_dir]
 
         desc 'Start a CAS proxy callback instance (requires PORT to be set)'
         task :start => :prep do
@@ -70,16 +57,7 @@ module Castanet::Testing
           ENV['SSL_CERT_PATH'] = ssl_cert
           ENV['SSL_KEY_PATH'] = ssl_key
 
-          handler = lambda do |*|
-            rm_rf(instance_dir, :verbose => true)
-            exit! 0
-          end
-
-          trap('TERM', &handler)
-          trap('INT', &handler)
-          trap('QUIT', &handler) unless RUBY_PLATFORM =~ /java/
-
-          load CALLBACK_PATH
+          cd(instance_dir) { load(CALLBACK_PATH) }
         end
 
         desc "Wait for all CAS proxy callback instances in #{scratch_dir} to become ready"

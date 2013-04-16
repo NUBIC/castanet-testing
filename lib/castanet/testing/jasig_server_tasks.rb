@@ -121,15 +121,7 @@ module Castanet::Testing
         desc 'Download the CAS server'
         task :download => [jasig_package_dest, jasig_extract_dest, jetty_package_dest]
 
-        task :write_url => instance_dir do
-          cd instance_dir do
-            server_url = "https://#{host}:#{port}#{mount_point}"
-            data = { url: server_url, status: server_url }
-            File.open('.urls', 'w') { |f| f.write(data.to_json) }
-          end
-        end
-
-        task :prep => [:download, :ensure_port, :write_url] do
+        task :prep => [:download, :ensure_port, instance_dir] do
           mkdir_p instance_dir
           cp jasig_package_name.call, "#{instance_dir}/webapps/#{jasig_war_filename}"
 
@@ -165,7 +157,7 @@ module Castanet::Testing
 
         desc 'Start a Jasig CAS Server instance (requires PORT to be set)'
         task :start => :prep do
-          exec "#{RUNNER} #{e instance_dir}"
+          cd(instance_dir) { exec 'java -jar start.jar' }
         end
 
         desc "Wait for all Jasig CAS Server instances in #{scratch_dir} to become ready"
