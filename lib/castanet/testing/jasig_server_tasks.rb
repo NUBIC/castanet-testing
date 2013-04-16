@@ -157,7 +157,7 @@ module Castanet::Testing
 
         desc 'Start a Jasig CAS Server instance (requires PORT to be set)'
         task :start => :prep do
-          cd(instance_dir) { exec 'java -jar start.jar' }
+          exec "cd #{e instance_dir} && exec java -jar start.jar"
         end
 
         desc "Wait for all Jasig CAS Server instances in #{scratch_dir} to become ready"
