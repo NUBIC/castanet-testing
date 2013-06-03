@@ -22,7 +22,8 @@ CALLBACK_PID=$!
 sleep 10
 
 # CAS and the callback should start.
-bundle exec rake castanet:testing:jasig:waitall castanet:testing:callback:waitall
+RETVAL=bundle exec rake castanet:testing:jasig:waitall castanet:testing:callback:waitall
 
 # Shut things down.
 kill -TERM $JASIG_PID $CALLBACK_PID && wait $JASIG_PID $CALLBACK_PID
+exit $RETVAL
