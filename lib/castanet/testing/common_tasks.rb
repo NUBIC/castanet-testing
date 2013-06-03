@@ -6,7 +6,7 @@ require 'timeout'
 
 module Castanet::Testing
   module CommonTasks
-    include ConnectionTesting
+    include Castanet::Testing::ConnectionTesting
     include Rake::DSL
 
     def wait_all(scratch_dir, timeout)
