@@ -75,9 +75,10 @@ module Castanet::Testing
       jasig_extract_dest = "#{scratch_dir}/#{jasig_fn}-extract"
       jasig_war_filename = mount_point.split('/').last + '.war'
 
-      jasig_package_name = lambda do
-        FileList["#{jasig_extract_dest}/modules/cas-server-uber-webapp*.war"].first
-      end
+      # Older versions of the Jasig CAS server used the cas-server-webapp*.war
+      # pattern.  There's usually only one WAR in a Jasig CAS server
+      # distribution, though, so we just look for all of them and pick the first one.
+      jasig_package_name = FileList["#{jasig_extract_dest}/modules/*.war"]
 
       jetty_fn = URI.parse(jetty_url).path.split('/').last
       jetty_package_dest = "#{scratch_dir}/#{jetty_fn}"
@@ -119,7 +120,7 @@ module Castanet::Testing
 
         task :prep => [:download, :ensure_port, instance_dir] do
           mkdir_p instance_dir
-          cp jasig_package_name.call, "#{instance_dir}/webapps/#{jasig_war_filename}"
+          cp jasig_package_name.compact.first, "#{instance_dir}/webapps/#{jasig_war_filename}"
 
           sh %Q{openssl pkcs12 -inkey #{e ssl_key} -in #{e ssl_cert} -export \
                 -out #{e "#{instance_dir}/jetty.pkcs12"} \
