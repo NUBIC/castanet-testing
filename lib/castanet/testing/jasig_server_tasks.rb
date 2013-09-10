@@ -83,10 +83,6 @@ module Castanet::Testing
       jetty_package_dest = "#{scratch_dir}/#{jetty_fn}"
       jetty_war_filename = mount_point.split('/').last + '.war'
 
-      jetty_package_name = lambda do
-        FileList["#{instance_dir}/modules/cas-server-uber-webapp*.war"].first
-      end
-
       jetty_keystore = "#{instance_dir}/jetty.ks"
       jetty_storepass = "secret"
       jetty_ssl_config = "#{jetty_package_dest}/etc/jetty-cas-ssl.xml"
